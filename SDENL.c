@@ -79,15 +79,15 @@ void diagonalizando(double M[20][20])
     {
         for(i = 0; i < N; i++)
         {
-            if(i != j) // Pegando elementos Diferentes
+            if(i != j)
             {
-                c = M[i][j]/M[j][j];// operador para diagonalizar
+                c = M[i][j]/M[j][j];
                  
                 for(k = 0; k < (N+1); k++)
                 
-                    M[i][k] = M[i][k] - (c*M[j][k]); // fazendo para todas as linhase colunas
-            }
-        }
+                    M[i][k] = M[i][k] - (c*M[j][k]);
+	    }
+	}
     }
 
 }
@@ -109,20 +109,19 @@ void jacobiano(sistfunc equacao[], double M[N][N+1], double x[N], double xa[N], 
 	}
 	
 	for(i = 0; i < N; i++)
-		{
-			for(j = 0; j < N; j++)
-			
-				mt[i][j] = M[i][j];
-		}
-
+	{
+		for(j = 0; j < N; j++)
+		
+			mt[i][j] = M[i][j];
+	}
 	
-		for(i = 0; i < N; i++)
+	for(i = 0; i < N; i++)
+	
+		mt[i][N] = x[i];
 		
-			mt[i][N] = x[i];
-			
-		
-		printf("\nMatriz total:\n");
-		imprime(M);
+	
+	printf("\nMatriz total:\n");
+	imprime(M);
 		
 }
 
@@ -132,7 +131,7 @@ int main(int argc, char **argv)
 	double x[N] = {0}, xa[N] = {0.1, 0.1, -0.1}, Y[N], aux;	//xa é o vetor chute
 	double norm, norma, norm1, norma1, M[N][N+1], mt[N][N+1];
 	double A[T][T], c;
-	int i, j, k, itt = 0;
+	int i, j, k, q = 0;
 	sistfunc equacao[N]= {f1, f2, f3};
 
 	
@@ -155,14 +154,10 @@ int main(int argc, char **argv)
 				
 		norma = sqrt(norm);
 		
-		//printf("\n%lf\n", norma);
-	
-	
-		// calculando o jocobiano
+		
 		jacobiano(equacao, M, x, xa, mt);
 		
-
-		//Lendo Matriz aumentada
+		
 		for(i = 0; i < N; i++)
 	   	{
 			for(j = 0; j < (N+1); j++)
@@ -173,7 +168,7 @@ int main(int argc, char **argv)
 		}
 
 
-		//diagonalizando
+		
 		diagonalizando(A);
 		
 			  			
@@ -181,8 +176,7 @@ int main(int argc, char **argv)
  
     	   	 	Y[i] = A[i][N]/A[i][i];
 
-
-		//Somando x=xa+Y	
+	
 		for(i = 0; i < N; i++)
 		
 			xa[i] = xa[i]+Y[i];
@@ -200,18 +194,16 @@ int main(int argc, char **argv)
 	
 			
 		norma1 = sqrt(norm1);
-		
-		//printf("\n%lf\n", norma1-norma);	
-		
+			
 		
 		fprintf(in, "%d\t%lf\n", itt, norma1);
 		
-		itt++;
+		q++;
 		
 		   
 	}while(fabs(norma1-norma) > tol);
 	
 	
-	printf("\n\nIterações: %d\n", itt);
+	printf("\n\nIterações: %d\n", q);
 
 }
